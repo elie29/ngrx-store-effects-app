@@ -13,12 +13,12 @@ import { storeFreeze } from 'ngrx-store-freeze';
 // this would be done dynamically with webpack for builds
 const environment = {
   development: true,
-  production: false,
+  production: false
 };
 
-export const metaReducers: MetaReducer<any>[] = !environment.production
-  ? [storeFreeze]
-  : [];
+export const metaReducers: MetaReducer<any>[] = environment.production
+  ? []
+  : [storeFreeze];
 
 // bootstrap
 import { AppComponent } from './containers/app/app.component';
@@ -28,8 +28,8 @@ export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'products' },
   {
     path: 'products',
-    loadChildren: '../products/products.module#ProductsModule',
-  },
+    loadChildren: '../products/products.module#ProductsModule'
+  }
 ];
 
 @NgModule({
@@ -39,9 +39,9 @@ export const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot({}, { metaReducers }),
     EffectsModule.forRoot([]),
-    environment.development ? StoreDevtoolsModule.instrument() : [],
+    environment.development ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

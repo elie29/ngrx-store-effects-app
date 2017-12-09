@@ -10,22 +10,7 @@ import { ToppingsService } from '../../services/toppings.service';
 @Component({
   selector: 'product-item',
   styleUrls: ['product-item.component.scss'],
-  template: `
-    <div 
-      class="product-item">
-      <pizza-form
-        [pizza]="pizza"
-        [toppings]="toppings"
-        (selected)="onSelect($event)"
-        (create)="onCreate($event)"
-        (update)="onUpdate($event)"
-        (remove)="onRemove($event)">
-        <pizza-display
-          [pizza]="visualise">
-        </pizza-display>
-      </pizza-form>
-    </div>
-  `,
+  templateUrl: 'product-item.component.html',
 })
 export class ProductItemComponent implements OnInit {
   pizza: Pizza;
@@ -46,7 +31,7 @@ export class ProductItemComponent implements OnInit {
       if (param === 'new') {
         pizza = {};
       } else {
-        pizza = pizzas.find(pizza => pizza.id == parseInt(param, 10));
+        pizza = pizzas.find(pizza => pizza.id === +param);
       }
       this.pizza = pizza;
       this.toppingsService.getToppings().subscribe(toppings => {
