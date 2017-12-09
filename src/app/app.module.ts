@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StoreModule, MetaReducer } from '@ngrx/store';
+import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 // not used in production
@@ -42,6 +42,7 @@ export const ROUTES: Routes = [
     environment.development ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [Store]
 })
 export class AppModule {}
