@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ProductsState } from '../../../products/store';
+import { ProductsState, LoadPizzas } from '../../../products/store';
 import { Pizza } from '../../models/pizza.model';
 import { getAllPizzas } from '../../store/reducers';
 import 'rxjs/add/operator/do';
@@ -21,5 +21,8 @@ export class ProductsComponent implements OnInit {
     this.pizzas$ = this.store
       .select(getAllPizzas)
       .do(pizzas => console.log(pizzas));
+
+    // Dispatch an action from the store
+    this.store.dispatch(new LoadPizzas());
   }
 }

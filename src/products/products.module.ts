@@ -3,12 +3,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import * as fromServices from './services';
-import { reducers } from './store';
+import { effects, reducers } from './store';
 
 export const ROUTES: Routes = [
   {
@@ -31,7 +32,8 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forChild(ROUTES),
-    StoreModule.forFeature('products', reducers) // lazy load with forFeature
+    StoreModule.forFeature('products', reducers), // lazy load with forFeature
+    EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],
