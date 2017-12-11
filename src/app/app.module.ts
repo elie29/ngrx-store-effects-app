@@ -1,15 +1,19 @@
+// Patches should be on app module rather than on prototype
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/throw';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Routes, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MetaReducer, Store, StoreModule } from '@ngrx/store';
+import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-
-// not used in production
+import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
+import { AppComponent } from './containers/app/app.component';
+
+// not used in production
 // this would be done dynamically with webpack for builds
 const environment = {
   development: true,
@@ -21,8 +25,6 @@ export const metaReducers: MetaReducer<any>[] = environment.production
   : [storeFreeze];
 
 // bootstrap
-import { AppComponent } from './containers/app/app.component';
-
 // routes
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'products' },

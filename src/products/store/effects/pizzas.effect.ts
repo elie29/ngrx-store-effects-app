@@ -11,7 +11,7 @@ import { LoadPizzasFail, LoadPizzasSuccess } from '../actions';
 export class PizzasEffects {
   constructor(private action$: Actions, private service: PizzasService) {}
 
-  // With pipe, we can import pure function instead of using rxjs/add/operator/switchMap
+  // With pipe, we can import pure function instead of using patches
   @Effect()
   loadPizzas$ = this.action$.ofType(LOAD_PIZZAS).pipe(
     switchMap(() => {

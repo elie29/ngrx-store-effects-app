@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { ProductsState, LoadPizzas } from '../../../products/store';
 import { Pizza } from '../../models/pizza.model';
 import { getAllPizzas } from '../../store/reducers';
-import 'rxjs/add/operator/do';
 
 @Component({
   selector: 'products',
