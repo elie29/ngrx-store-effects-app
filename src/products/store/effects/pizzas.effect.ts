@@ -15,6 +15,7 @@ export class PizzasEffects {
   @Effect()
   loadPizzas$ = this.action$.ofType(LOAD_PIZZAS).pipe(
     switchMap(() => {
+      // Returns always observable so error is caught inside switchMap
       return this.service
         .getPizzas()
         .pipe(
