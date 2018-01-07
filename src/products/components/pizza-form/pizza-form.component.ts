@@ -1,20 +1,17 @@
 import {
   Component,
-  Input,
-  Output,
   EventEmitter,
+  Input,
   OnChanges,
-  SimpleChanges,
-  ChangeDetectionStrategy,
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  FormArray,
-  FormBuilder,
-  Validators,
+  Validators
 } from '@angular/forms';
-
 import { map } from 'rxjs/operators';
 
 import { Pizza } from '../../models/pizza.model';
@@ -38,7 +35,7 @@ export class PizzaFormComponent implements OnChanges {
 
   form = this.fb.group({
     name: ['', Validators.required],
-    toppings: [[]],
+    toppings: [[]]
   });
 
   constructor(private fb: FormBuilder) {}

@@ -7,7 +7,7 @@ import {
   RouterStateSerializer,
   StoreRouterConnectingModule
 } from '@ngrx/router-store';
-import { MetaReducer, StoreModule } from '@ngrx/store';
+import { Store, MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
@@ -47,6 +47,9 @@ export const ROUTES: Routes = [
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
+  providers: [
+    Store,
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ]
 })
 export class AppModule {}

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-
-import { ProductsState, LoadPizzas } from '../../../products/store';
-import { Pizza } from '../../models/pizza.model';
-import { getAllPizzas } from '../../store/reducers';
 import { tap } from 'rxjs/operators/tap';
+
+import {
+  getAllPizzas,
+  LoadPizzas,
+  ProductsState
+} from '../../../products/store';
+import { Pizza } from '../../models/pizza.model';
 
 @Component({
   selector: 'products',
