@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ProductsState, LoadPizzas } from '../../../products/store';
 import { Pizza } from '../../models/pizza.model';
 import { getAllPizzas } from '../../store/reducers';
+import { tap } from 'rxjs/operators/tap';
 
 @Component({
   selector: 'products',
@@ -19,7 +20,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.pizzas$ = this.store
       .select(getAllPizzas)
-      .do(pizzas => console.log(pizzas));
+      .pipe(tap(pizzas => console.log(pizzas)));
 
     // Dispatch an action from the store
     this.store.dispatch(new LoadPizzas());

@@ -15,6 +15,7 @@ export const reducers: ActionReducerMap<ProductsState> = {
 };
 
 // Select products state from the top level store object
+// products is the name given in products.module
 export const getProductsState = createFeatureSelector<ProductsState>(
   'products'
 );
@@ -25,15 +26,23 @@ export const getPizzasState = createSelector(
   (state: ProductsState) => state.pizzas
 );
 
+// Select entities from pizzas state
+export const getPizzasEntities = createSelector(
+  getPizzasState,
+  fromPizzas.getPizzasEntities
+);
+
 // Select data from pizzas state
 export const getAllPizzas = createSelector(
-  getPizzasState,
-  fromPizzas.getPizzas
+  getPizzasEntities,
+  fromPizzas.getPizzasAsArray
 );
+
 export const getPizzasLoading = createSelector(
   getPizzasState,
   fromPizzas.getPizzasLoading
 );
+
 export const getPizzasLoaded = createSelector(
   getPizzasState,
   fromPizzas.getPizzasLoaded

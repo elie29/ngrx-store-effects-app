@@ -1,7 +1,3 @@
-// Patches should be on app module rather than on prototype
-import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/throw';
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

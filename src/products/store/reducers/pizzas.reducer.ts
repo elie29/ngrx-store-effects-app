@@ -1,20 +1,23 @@
+import { Pizza } from '../../models/pizza.model';
 import {
   LOAD_PIZZAS,
   LOAD_PIZZAS_FAIL,
   LOAD_PIZZAS_SUCCESS,
   PizzasAction
 } from '../actions/pizzas.action';
-import { InitialState } from '@ngrx/store/src/models';
-import { Pizza } from '../../models/pizza.model';
+
+export interface Entities {
+  [id: number]: Pizza;
+}
 
 export interface PizzaState {
-  data: Pizza[];
+  entities: Entities;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: PizzaState = {
-  data: [],
+  entities: {},
   loaded: false,
   loading: false
 };
@@ -31,12 +34,14 @@ export function reducer(
       };
     }
     case LOAD_PIZZAS_SUCCESS: {
-      const data = action.payload;
+      const pizzas = action.payload;
+      // Flatten the array into object
+      const entities = flattenArray(pizzas, state.entities);
       return {
         ...state,
         loading: false,
         loaded: true,
-        data
+        entities
       };
     }
     case LOAD_PIZZAS_FAIL: {
@@ -50,6 +55,22 @@ export function reducer(
   return state;
 }
 
+function flattenArray(pizzas: Pizza[], entities: Entities) {
+  return pizzas.reduce(
+    (entities: Entities, pizza: Pizza) => {
+      // we add to entities the current pizza
+      return { ...entities, [pizza.id]: pizza };
+    },
+    { ...entities } // initial state
+  );
+}
+
+/**
+ * shortcut functions used in reducers/index.ts
+ */
+export const getPizzasEntities = (state: PizzaState) => state.entities;
 export const getPizzasLoading = (state: PizzaState) => state.loading;
 export const getPizzasLoaded = (state: PizzaState) => state.loaded;
-export const getPizzas = (state: PizzaState) => state.data;
+export const getPizzasAsArray = (entities: Entities) => {
+  return Object.keys(entities).map(id => entities[+id]);
+};
