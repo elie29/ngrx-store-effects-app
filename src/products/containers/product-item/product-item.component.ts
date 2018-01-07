@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Pizza } from '../../models/pizza.model';
 import { Topping } from '../../models/topping.model';
-import { ProductsState, getSelectedPizza } from '../../store';
+import { ProductsState, getSelectedPizza, LoadToppings } from '../../store';
 
 @Component({
   selector: 'product-item',
@@ -12,14 +12,15 @@ import { ProductsState, getSelectedPizza } from '../../store';
   templateUrl: 'product-item.component.html'
 })
 export class ProductItemComponent implements OnInit {
-  pizza: Observable<Pizza>;
+  pizza$: Observable<Pizza>;
   visualise: Pizza;
-  toppings: Topping[];
+  toppings$: Observable<Topping[]>;
 
   constructor(private store: Store<ProductsState>) {}
 
   ngOnInit() {
-    this.pizza = this.store.select(getSelectedPizza);
+    this.pizza$ = this.store.select(getSelectedPizza);
+    this.store.dispatch(new LoadToppings());
   }
 
   onSelect(event: number[]) {}

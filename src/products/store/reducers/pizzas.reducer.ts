@@ -1,3 +1,4 @@
+import { flattenArray } from '../../../utils/array';
 import { Pizza } from '../../models/pizza.model';
 import {
   LOAD_PIZZAS,
@@ -6,7 +7,7 @@ import {
   PizzasAction
 } from '../actions/pizzas.action';
 
-export interface Entities {
+interface Entities {
   [id: number]: Pizza;
 }
 
@@ -53,16 +54,6 @@ export function reducer(
     }
   }
   return state;
-}
-
-function flattenArray(pizzas: Pizza[], entities: Entities) {
-  return pizzas.reduce(
-    (entities: Entities, pizza: Pizza) => {
-      // we add to entities the current pizza
-      return { ...entities, [pizza.id]: pizza };
-    },
-    { ...entities } // initial state
-  );
 }
 
 /**
