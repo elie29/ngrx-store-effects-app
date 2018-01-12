@@ -1,10 +1,11 @@
 import { flattenArray } from '../../../utils/array';
 import { Topping } from '../../models/topping.model';
 import {
-  LOAD_TOPPINGS_SUCCESS,
   LOAD_TOPPINGS,
   LOAD_TOPPINGS_FAIL,
-  ToppingsAction
+  LOAD_TOPPINGS_SUCCESS,
+  ToppingsAction,
+  VISUALISE_TOPPINGS
 } from '../actions';
 
 interface Entities {
@@ -46,6 +47,14 @@ export function reducer(
 
     case LOAD_TOPPINGS_FAIL:
       return { ...state, loaded: false, loading: false };
+
+    case VISUALISE_TOPPINGS: {
+      const selectedToppings: number[] = action.payload;
+      return {
+        ...state,
+        selectedToppings
+      };
+    }
   }
   return state;
 }
@@ -59,3 +68,5 @@ export const getToppingsLoaded = (state: ToppingsState) => state.loaded;
 export const getToppingsAsArray = (entities: Entities) => {
   return Object.keys(entities).map(id => entities[+id]);
 };
+export const getSelectedToppins = (state: ToppingsState) =>
+  state.selectedToppings;

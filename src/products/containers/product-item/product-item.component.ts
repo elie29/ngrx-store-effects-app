@@ -8,8 +8,11 @@ import {
   ProductsState,
   getSelectedPizza,
   LoadToppings,
-  getAllToppings
+  getAllToppings,
+  getPizzaVisualised,
+  VisualiseToppings
 } from '../../store';
+import { tap } from 'rxjs/operators/tap';
 
 @Component({
   selector: 'product-item',
@@ -18,18 +21,26 @@ import {
 })
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
-  visualise: Pizza;
+  visualise$: Observable<Pizza>;
   toppings$: Observable<Topping[]>;
 
   constructor(private store: Store<ProductsState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadToppings());
-    this.pizza$ = this.store.select(getSelectedPizza);
+    this.pizza$ = this.store.select(getSelectedPizza).pipe(
+      tap(pizza => {
+        const exist = !!(pizza && pizza.toppings);
+        const toppings = exist ? pizza.toppings.map(data => data.id) : [];
+        this.onSelect(toppings);
+      })
+    );
     this.toppings$ = this.store.select(getAllToppings);
+    this.visualise$ = this.store.select(getPizzaVisualised);
   }
 
-  onSelect(event: number[]) {}
+  onSelect(event: number[]) {
+    this.store.dispatch(new VisualiseToppings(event));
+  }
 
   onCreate(event: Pizza) {}
 

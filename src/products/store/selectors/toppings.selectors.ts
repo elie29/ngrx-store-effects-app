@@ -26,3 +26,8 @@ export const getToppingsLoading = createSelector(
   getToppingsState,
   fromToppings.getToppingsLoading
 );
+
+export const getSelectedToppings = createSelector(
+  getToppingsState,
+  fromToppings.getSelectedToppins
+);
