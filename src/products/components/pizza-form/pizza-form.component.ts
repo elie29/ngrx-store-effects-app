@@ -33,12 +33,14 @@ export class PizzaFormComponent implements OnChanges {
   @Output() update = new EventEmitter<Pizza>();
   @Output() remove = new EventEmitter<Pizza>();
 
-  form = this.fb.group({
-    name: ['', Validators.required],
-    toppings: [[]]
-  });
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.form = fb.group({
+      name: ['', Validators.required],
+      toppings: [[]]
+    });
+  }
 
   get nameControl() {
     return this.form.get('name') as FormControl;
@@ -75,8 +77,7 @@ export class PizzaFormComponent implements OnChanges {
     }
   }
 
-  removePizza(form: FormGroup) {
-    const { value } = form;
-    this.remove.emit({ ...this.pizza, ...value });
+  removePizza() {
+    this.remove.emit({ ...this.pizza });
   }
 }

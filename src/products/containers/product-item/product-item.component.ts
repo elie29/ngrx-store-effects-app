@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators/tap';
 
 import { Pizza } from '../../models/pizza.model';
 import { Topping } from '../../models/topping.model';
 import {
-  ProductsState,
-  getSelectedPizza,
-  LoadToppings,
+  CreatePizza,
+  DeletePizza,
   getAllToppings,
   getPizzaVisualised,
-  VisualiseToppings
+  getSelectedPizza,
+  ProductsState,
+  VisualiseToppings,
+  UpdatePizza
 } from '../../store';
-import { tap } from 'rxjs/operators/tap';
 
 @Component({
   selector: 'product-item',
@@ -42,13 +44,18 @@ export class ProductItemComponent implements OnInit {
     this.store.dispatch(new VisualiseToppings(event));
   }
 
-  onCreate(event: Pizza) {}
+  onCreate(event: Pizza) {
+    this.store.dispatch(new CreatePizza(event));
+  }
 
-  onUpdate(event: Pizza) {}
+  onUpdate(event: Pizza) {
+    this.store.dispatch(new UpdatePizza(event));
+  }
 
   onRemove(event: Pizza) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
+      this.store.dispatch(new DeletePizza(event));
     }
   }
 }

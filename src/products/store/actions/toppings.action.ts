@@ -14,7 +14,7 @@ export class LoadToppings implements Action {
 
 export class LoadToppingsFail implements Action {
   readonly type = LOAD_TOPPINGS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadToppingsSuccess implements Action {

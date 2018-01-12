@@ -13,6 +13,6 @@ export class ToppingsService {
   getToppings(): Observable<Topping[]> {
     return this.http
       .get<Topping[]>(`/api/toppings`)
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => Observable.throw(error.message)));
   }
 }

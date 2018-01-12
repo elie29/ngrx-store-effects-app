@@ -32,7 +32,7 @@ export function reducer(
 ): ToppingsState {
   switch (action.type) {
     case LOAD_TOPPINGS:
-      return { ...state, loading: true };
+      return { ...state, loaded: false, loading: true };
 
     case LOAD_TOPPINGS_SUCCESS: {
       const toppings = action.payload;
