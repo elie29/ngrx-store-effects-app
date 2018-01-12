@@ -80,8 +80,8 @@ export function reducer(
     }
     case DELETE_PIZZA_SUCCESS: {
       const pizza = action.payload;
-      const entities = { ...state.entities };
-      delete entities[pizza.id];
+      // removed is not used just for destruction purpose
+      const { [pizza.id]: removed, ...entities } = state.entities;
       return {
         ...state,
         loading: false,
