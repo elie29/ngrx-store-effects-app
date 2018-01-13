@@ -3,24 +3,9 @@ import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs/Observable/of';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+import * as fromRoot from '../../../app/store';
 import { PizzasService } from '../../services';
-import {
-  CREATE_PIZZA,
-  CreatePizza,
-  CreatePizzaFail,
-  CreatePizzaSuccess,
-  DELETE_PIZZA,
-  DeletePizza,
-  DeletePizzaFail,
-  DeletePizzaSuccess,
-  LOAD_PIZZAS,
-  LoadPizzasFail,
-  LoadPizzasSuccess,
-  UPDATE_PIZZA,
-  UpdatePizza,
-  UpdatePizzaFail,
-  UpdatePizzaSuccess
-} from '../../store';
+import * as pizzaActions from '../../store/actions';
 
 @Injectable()
 export class PizzasEffects {
@@ -28,56 +13,74 @@ export class PizzasEffects {
 
   // With pipe, we can import pure function instead of using patches
   @Effect()
-  loadPizzas$ = this.action$.ofType(LOAD_PIZZAS).pipe(
+  loadPizzas$ = this.action$.ofType(pizzaActions.LOAD_PIZZAS).pipe(
     switchMap(() => {
       // Returns always observable so error is caught inside switchMap
       return this.service
         .getPizzas()
         .pipe(
-          map(pizzas => new LoadPizzasSuccess(pizzas)),
-          catchError(error => of(new LoadPizzasFail(error)))
+          map(pizzas => new pizzaActions.LoadPizzasSuccess(pizzas)),
+          catchError(error => of(new pizzaActions.LoadPizzasFail(error)))
         );
     })
   );
 
   @Effect()
-  createPizzas$ = this.action$.ofType(CREATE_PIZZA).pipe(
-    map((action: CreatePizza) => action.payload),
+  createPizzas$ = this.action$.ofType(pizzaActions.CREATE_PIZZA).pipe(
+    map((action: pizzaActions.CreatePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
       return this.service
         .createPizza(pizza)
         .pipe(
-          map(pizza => new CreatePizzaSuccess(pizza)),
-          catchError(error => of(new CreatePizzaFail(error)))
+          map(pizza => new pizzaActions.CreatePizzaSuccess(pizza)),
+          catchError(error => of(new pizzaActions.CreatePizzaFail(error)))
         );
     })
   );
 
+  // Separate effets is better than adding navigation in pipe above
   @Effect()
-  updatePizzas$ = this.action$.ofType(UPDATE_PIZZA).pipe(
-    map((action: UpdatePizza) => action.payload),
+  createPizzaSuccess$ = this.action$
+    .ofType(pizzaActions.CREATE_PIZZA_SUCCESS)
+    .pipe(
+      map((action: pizzaActions.CreatePizzaSuccess) => action.payload),
+      map(pizza => new fromRoot.Go({ path: ['/products', pizza.id] }))
+    );
+
+  @Effect()
+  updatePizzas$ = this.action$.ofType(pizzaActions.UPDATE_PIZZA).pipe(
+    map((action: pizzaActions.UpdatePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
       return this.service
         .updatePizza(pizza)
         .pipe(
-          map(pizza => new UpdatePizzaSuccess(pizza)),
-          catchError(error => of(new UpdatePizzaFail(error)))
+          map(pizza => new pizzaActions.UpdatePizzaSuccess(pizza)),
+          catchError(error => of(new pizzaActions.UpdatePizzaFail(error)))
         );
     })
   );
 
   @Effect()
-  deletePizzas$ = this.action$.ofType(DELETE_PIZZA).pipe(
-    map((action: DeletePizza) => action.payload),
+  deletePizzas$ = this.action$.ofType(pizzaActions.DELETE_PIZZA).pipe(
+    map((action: pizzaActions.DeletePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
       return this.service.removePizza(pizza).pipe(
         // removePizza does not return a pizza
-        map(() => new DeletePizzaSuccess(pizza)),
-        catchError(error => of(new DeletePizzaFail(error)))
+        map(() => new pizzaActions.DeletePizzaSuccess(pizza)),
+        catchError(error => of(new pizzaActions.DeletePizzaFail(error)))
       );
     })
   );
+
+  // Separate effets is better than adding navigation in pipe above
+  @Effect()
+  updatePizzaSuccess$ = this.action$
+    .ofType(
+      pizzaActions.UPDATE_PIZZA_SUCCESS,
+      pizzaActions.DELETE_PIZZA_SUCCESS
+    )
+    .pipe(map(() => new fromRoot.Go({ path: ['/products'] })));
 }
