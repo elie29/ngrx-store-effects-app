@@ -25,7 +25,6 @@ export class ProductsComponent implements OnInit {
     this.pizzas$ = this.store.select(getAllPizzas);
 
     // Dispatch an action from the store
-    this.store.dispatch(new LoadPizzas());
     this.store.dispatch(new LoadToppings());
   }
 }

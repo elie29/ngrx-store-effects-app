@@ -9,15 +9,18 @@ import { StoreModule } from '@ngrx/store';
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import * as fromServices from './services';
-import { effects, reducers } from './store';
+import * as fromStore from './store';
+import * as fromGuard from './guards';
 
 export const ROUTES: Routes = [
   {
     path: '',
+    canActivate: [fromGuard.PizzasGuard],
     component: fromContainers.ProductsComponent
   },
   {
     path: 'new',
+    canActivate: [fromGuard.PizzasGuard],
     component: fromContainers.ProductItemComponent
   },
   {
@@ -32,10 +35,10 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forChild(ROUTES),
-    StoreModule.forFeature('products', reducers), // lazy load with forFeature
-    EffectsModule.forFeature(effects)
+    StoreModule.forFeature('products', fromStore.reducers), // lazy load with forFeature
+    EffectsModule.forFeature(fromStore.effects)
   ],
-  providers: [...fromServices.services],
+  providers: [...fromServices.services, ...fromGuard.guards],
   declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components]
 })
