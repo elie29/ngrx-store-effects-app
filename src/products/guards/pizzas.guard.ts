@@ -29,7 +29,7 @@ export class PizzasGuard implements CanActivate {
           this.store.dispatch(new LoadPizzas());
         }
       }),
-      filter(loaded => loaded),
+      filter(loaded => loaded), // once pizzas loaded unsubscribe
       take(1)
     );
   }

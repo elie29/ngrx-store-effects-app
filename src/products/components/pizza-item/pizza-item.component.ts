@@ -8,7 +8,7 @@ import {
 
 @Component({
   selector: 'pizza-item',
-  changeDetection: ChangeDetectionStrategy.OnPush, // Only when pizza object changes but not its content
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['pizza-item.component.scss'],
   templateUrl: 'pizza-item.component.html'
 })

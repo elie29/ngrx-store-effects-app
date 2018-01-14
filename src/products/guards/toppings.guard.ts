@@ -16,13 +16,13 @@ export class ToppingsGuard implements CanActivate {
   constructor(private store: Store<ProductsState>) {}
 
   canActivate(): Observable<boolean> {
-    return this.checkStore().pipe(
+    return this.checkToppings().pipe(
       switchMap(_ => of(true)),
       catchError(_ => of(false))
     );
   }
 
-  checkStore(): Observable<boolean> {
+  private checkToppings(): Observable<boolean> {
     return this.store.select(getToppingsLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
