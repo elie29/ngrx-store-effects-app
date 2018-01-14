@@ -26,7 +26,7 @@ export class PizzasEffects {
   );
 
   @Effect()
-  createPizzas$ = this.action$.ofType(pizzaActions.CREATE_PIZZA).pipe(
+  createPizza$ = this.action$.ofType(pizzaActions.CREATE_PIZZA).pipe(
     map((action: pizzaActions.CreatePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
@@ -49,7 +49,7 @@ export class PizzasEffects {
     );
 
   @Effect()
-  updatePizzas$ = this.action$.ofType(pizzaActions.UPDATE_PIZZA).pipe(
+  updatePizza$ = this.action$.ofType(pizzaActions.UPDATE_PIZZA).pipe(
     map((action: pizzaActions.UpdatePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
@@ -63,7 +63,7 @@ export class PizzasEffects {
   );
 
   @Effect()
-  deletePizzas$ = this.action$.ofType(pizzaActions.DELETE_PIZZA).pipe(
+  deletePizza$ = this.action$.ofType(pizzaActions.DELETE_PIZZA).pipe(
     map((action: pizzaActions.DeletePizza) => action.payload),
     switchMap(pizza => {
       // Returns always observable so error is caught inside switchMap
