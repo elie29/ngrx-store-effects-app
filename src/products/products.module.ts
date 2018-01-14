@@ -20,12 +20,12 @@ export const ROUTES: Routes = [
   },
   {
     path: 'new',
-    canActivate: [fromGuard.PizzasGuard],
+    canActivate: [fromGuard.PizzasGuard, fromGuard.ToppingsGuard],
     component: fromContainers.ProductItemComponent
   },
   {
     path: ':pizzaId',
-    canActivate: [fromGuard.PizzaExistsGuard],
+    canActivate: [fromGuard.PizzaExistsGuard, fromGuard.ToppingsGuard],
     component: fromContainers.ProductItemComponent
   }
 ];
