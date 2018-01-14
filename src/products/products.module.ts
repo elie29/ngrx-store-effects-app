@@ -8,9 +8,9 @@ import { StoreModule } from '@ngrx/store';
 
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
+import * as fromGuard from './guards';
 import * as fromServices from './services';
 import * as fromStore from './store';
-import * as fromGuard from './guards';
 
 export const ROUTES: Routes = [
   {
@@ -25,6 +25,7 @@ export const ROUTES: Routes = [
   },
   {
     path: ':pizzaId',
+    canActivate: [fromGuard.PizzaExistsGuard],
     component: fromContainers.ProductItemComponent
   }
 ];
