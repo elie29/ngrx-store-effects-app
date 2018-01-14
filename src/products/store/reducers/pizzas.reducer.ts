@@ -1,27 +1,13 @@
 import { flattenArray } from '../../../utils/array';
 import { Pizza } from '../../models/pizza.model';
-import {
-  CREATE_PIZZA,
-  CREATE_PIZZA_FAIL,
-  CREATE_PIZZA_SUCCESS,
-  DELETE_PIZZA,
-  DELETE_PIZZA_FAIL,
-  DELETE_PIZZA_SUCCESS,
-  LOAD_PIZZAS,
-  LOAD_PIZZAS_FAIL,
-  LOAD_PIZZAS_SUCCESS,
-  PizzasAction,
-  UPDATE_PIZZA,
-  UPDATE_PIZZA_FAIL,
-  UPDATE_PIZZA_SUCCESS
-} from '../actions/pizzas.action';
+import * as fromActions from '../actions/pizzas.action';
 
-interface Entities {
+interface PizzasEntities {
   [id: number]: Pizza;
 }
 
 export interface PizzaState {
-  entities: Entities;
+  entities: PizzasEntities;
   loaded: boolean;
   loading: boolean;
 }
@@ -34,28 +20,28 @@ export const initialState: PizzaState = {
 
 export function reducer(
   state = initialState,
-  action: PizzasAction
+  action: fromActions.PizzasAction
 ): PizzaState {
   switch (action.type) {
-    case LOAD_PIZZAS:
-    case CREATE_PIZZA:
-    case UPDATE_PIZZA:
-    case DELETE_PIZZA:
+    case fromActions.LOAD_PIZZAS:
+    case fromActions.CREATE_PIZZA:
+    case fromActions.UPDATE_PIZZA:
+    case fromActions.DELETE_PIZZA:
       return {
         ...state,
         loading: true,
         loaded: false
       };
-    case LOAD_PIZZAS_FAIL:
-    case CREATE_PIZZA_FAIL:
-    case UPDATE_PIZZA_FAIL:
-    case DELETE_PIZZA_FAIL:
+    case fromActions.LOAD_PIZZAS_FAIL:
+    case fromActions.CREATE_PIZZA_FAIL:
+    case fromActions.UPDATE_PIZZA_FAIL:
+    case fromActions.DELETE_PIZZA_FAIL:
       return {
         ...state,
         loading: false,
         loaded: false
       };
-    case LOAD_PIZZAS_SUCCESS: {
+    case fromActions.LOAD_PIZZAS_SUCCESS: {
       const pizzas = action.payload;
       // Flatten the array into object
       const entities = flattenArray(pizzas, state.entities);
@@ -67,8 +53,8 @@ export function reducer(
       };
     }
 
-    case CREATE_PIZZA_SUCCESS:
-    case UPDATE_PIZZA_SUCCESS: {
+    case fromActions.CREATE_PIZZA_SUCCESS:
+    case fromActions.UPDATE_PIZZA_SUCCESS: {
       const pizza = action.payload;
       const entities = { ...state.entities, [pizza.id]: pizza };
       return {
@@ -78,7 +64,7 @@ export function reducer(
         entities
       };
     }
-    case DELETE_PIZZA_SUCCESS: {
+    case fromActions.DELETE_PIZZA_SUCCESS: {
       const pizza = action.payload;
       // removed is not used just for destruction purpose
       const { [pizza.id]: removed, ...entities } = state.entities;
@@ -99,6 +85,6 @@ export function reducer(
 export const getPizzasEntities = (state: PizzaState) => state.entities;
 export const getPizzasLoading = (state: PizzaState) => state.loading;
 export const getPizzasLoaded = (state: PizzaState) => state.loaded;
-export const getPizzasAsArray = (entities: Entities) => {
+export const getPizzasAsArray = (entities: PizzasEntities) => {
   return Object.keys(entities).map(id => entities[+id]);
 };
