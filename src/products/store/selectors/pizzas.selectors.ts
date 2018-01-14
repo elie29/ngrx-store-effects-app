@@ -5,19 +5,41 @@ import * as fromFeature from '../reducers';
 import * as fromPizzas from '../reducers/pizzas.reducer';
 import { getSelectedToppings, getToppingEntities } from './toppings.selectors';
 
-// Select pizzas state from the products state
+/**
+ * Select pizzas state from the products state
+ * A selector takes a feature selector or a combination of selectors
+ * and return slice of the state
+ */
 export const getPizzasState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.pizzas
 );
 
-// Select entities from pizzas state
+// Select entities from pizzas state selector
 export const getPizzasEntities = createSelector(
   getPizzasState,
-  fromPizzas.getPizzasEntities
+  fromPizzas.getPizzasEntities // shortcut method in pizza.reducer
 );
 
-// select a pizza
+// Select .loading from pizzas state
+export const getPizzasLoading = createSelector(
+  getPizzasState,
+  fromPizzas.getPizzasLoading
+);
+
+// Select .loaded from pizzas state
+export const getPizzasLoaded = createSelector(
+  getPizzasState,
+  fromPizzas.getPizzasLoaded
+);
+
+// Select Pizza[] from pizzas entities
+export const getAllPizzas = createSelector(
+  getPizzasEntities,
+  fromPizzas.getPizzasAsArray
+);
+
+// select a pizza using a combination of pizzas entities and current route
 export const getSelectedPizza = createSelector(
   getPizzasEntities,
   fromRoot.getRouterState,
@@ -26,6 +48,7 @@ export const getSelectedPizza = createSelector(
   }
 );
 
+// select visualised pizza from selected pizza, toppings and selected toppings
 export const getPizzaVisualised = createSelector(
   getSelectedPizza,
   getToppingEntities,
@@ -34,20 +57,4 @@ export const getPizzaVisualised = createSelector(
     const toppings = selectedToppings.map(id => toppingsEntities[id]);
     return { ...pizza, toppings };
   }
-);
-
-// Select data from pizzas state
-export const getAllPizzas = createSelector(
-  getPizzasEntities,
-  fromPizzas.getPizzasAsArray
-);
-
-export const getPizzasLoading = createSelector(
-  getPizzasState,
-  fromPizzas.getPizzasLoading
-);
-
-export const getPizzasLoaded = createSelector(
-  getPizzasState,
-  fromPizzas.getPizzasLoaded
 );
