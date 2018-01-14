@@ -60,7 +60,7 @@ export function reducer(
 }
 
 /**
- * shortcut functions used in reducers/index.ts
+ * shortcut functions
  */
 export const getToppingEntities = (state: ToppingsState) => state.entities;
 export const getToppingsLoading = (state: ToppingsState) => state.loading;
@@ -68,5 +68,5 @@ export const getToppingsLoaded = (state: ToppingsState) => state.loaded;
 export const getToppingsAsArray = (entities: Entities) => {
   return Object.keys(entities).map(id => entities[+id]);
 };
-export const getSelectedToppins = (state: ToppingsState) =>
+export const getSelectedToppings = (state: ToppingsState) =>
   state.selectedToppings;

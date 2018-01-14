@@ -94,7 +94,7 @@ export function reducer(
 }
 
 /**
- * shortcut functions used in reducers/index.ts
+ * shortcut functions
  */
 export const getPizzasEntities = (state: PizzaState) => state.entities;
 export const getPizzasLoading = (state: PizzaState) => state.loading;
